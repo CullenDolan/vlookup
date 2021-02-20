@@ -1,8 +1,11 @@
 import pandas as pd
 
-facilities = pd.read_excel('comp_mapping.xlsx', sheet_name='hospital')
-msdrg = pd.read_excel('comp_mapping.xlsx', sheet_name='ms_drg', dtype=str)
-icd = pd.read_excel('comp_mapping.xlsx', sheet_name='icd', dtype=str)
+mapping_table_string = r'C:\Users\cudolan\desktop\comp_mapping.xlsx'
+mapping_table_df = pd.read_excel(mapping_table_string, sheet_name='icd')
+
+facilities = pd.read_excel(mapping_table_string, sheet_name='hospital')
+msdrg = pd.read_excel(mapping_table_string, sheet_name='ms_drg', dtype=str)
+icd = pd.read_excel(mapping_table_string, sheet_name='icd', dtype=str)
 df = pd.read_csv('2019 adv.csv', 
                 names=['Id','Discharge Year','Discharge Date','Discharge Quarter','Admission Year','Admission Date','PROVIDER FACILITY',
                 'ICD - Dx Code','MS-DRG','ICD - Px Code','CPT','Patient ZIP','FIPS Code','Patient County','Inside PSA?','Patient State',
