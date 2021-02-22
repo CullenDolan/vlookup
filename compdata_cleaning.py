@@ -13,6 +13,8 @@ df = pd.read_csv('2019-20.csv',
                 'Discharge Status',	'INPATIENT','OBSERVATION','OP SURGERY','ED','ICU','CCU','NICU-L2','NICU-L3','NICU-L4','Attending','Surgeon','Total Charges',], 
                 dtype=str)
 print('File Imports -- Complete')
+
+
 # change columns to int
 df['Hospital ID'] = df['Hospital ID'].astype(int)
 df['INPATIENT'] = df['INPATIENT'].astype(int)
@@ -28,8 +30,10 @@ df = pd.merge(df, icd, how = 'left', left_on = 'ICD - Dx Code', right_on = 'ICD1
 print('vlookups -- Complete')
 # need to add admit source, priority, CPT, Px, Geo mapping, provider names, discharge status
 
+
 # drop duplicate columns
 df = df.drop(['Hospital_ID', 'Street','City', 'County', 'Zip Code', 'ms-drg', 'text_msdrg', 'ms-drg_desc','ICD10', 'icd_desc'], axis = 1)
+
 
 def return_ip_obs_category(row):
     if row['INPATIENT'] == 1 and row['OBSERVATION'] == 0 and row['ms_drg_in_ex'] == 'Include':
@@ -44,6 +48,7 @@ def return_ip_obs_category(row):
 
 df['IP_OBS_LB_Exc'] = df.apply(lambda row: return_ip_obs_category(row), axis = 1)
 print('Patient Classification -- Complete')
+
 
 # convert the df to excel
 print('Converting to excel')
