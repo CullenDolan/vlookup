@@ -6,13 +6,13 @@ mapping_table_df = pd.read_excel(mapping_table_string, sheet_name='icd')
 facilities = pd.read_excel(mapping_table_string, sheet_name='hospital')
 msdrg = pd.read_excel(mapping_table_string, sheet_name='ms_drg', dtype=str)
 icd = pd.read_excel(mapping_table_string, sheet_name='icd', dtype=str)
-df = pd.read_csv('testfile.csv', 
+df = pd.read_csv('2019-20.csv', 
                 names=['Id','Discharge Year','Discharge Date','Discharge Quarter','Admission Year','Admission Date','Hospital ID',
                 'ICD - Dx Code','MS-DRG','ICD - Px Code','CPT','Patient ZIP','FIPS Code','Patient County','Inside PSA?','Patient State',
                 'Payer Category ID','Payer Category', 'Age','Length of Stay','Admission Source Code','Admission Type/Priority',
                 'Discharge Status',	'INPATIENT','OBSERVATION','OP SURGERY','ED','ICU','CCU','NICU-L2','NICU-L3','NICU-L4','Attending','Surgeon','Total Charges',], 
                 dtype=str)
-
+print('File Imports -- Complete')
 # change columns to int
 df['Hospital ID'] = df['Hospital ID'].astype(int)
 df['INPATIENT'] = df['INPATIENT'].astype(int)
@@ -25,7 +25,7 @@ facilities['Hospital_ID'] = facilities['Hospital_ID'].astype(int)
 df = pd.merge(df, facilities, how = 'left', left_on = 'Hospital ID', right_on = 'Hospital_ID')
 df = pd.merge(df, msdrg, how = 'left', left_on = 'MS-DRG', right_on = 'ms-drg')
 df = pd.merge(df, icd, how = 'left', left_on = 'ICD - Dx Code', right_on = 'ICD10')
-
+print('vlookups -- Complete')
 # need to add admit source, priority, CPT, Px, Geo mapping, provider names, discharge status
 
 # drop duplicate columns
@@ -43,10 +43,12 @@ def return_ip_obs_category(row):
     return 'Exclude'
 
 df['IP_OBS_LB_Exc'] = df.apply(lambda row: return_ip_obs_category(row), axis = 1)
+print('Patient Classification -- Complete')
 
 # convert the df to excel
-print('converting to excel')
-writer = pd.ExcelWriter('output.xlsx', engine='xlsxwriter')
+print('Converting to excel')
+writer = pd.ExcelWriter('2019-20_data.xlsx', engine='xlsxwriter')
 df.to_excel(writer, 'Sheet1')
 writer.save()
+print('Excel Generation -- Complete')
 
