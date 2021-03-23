@@ -6,10 +6,10 @@ mapping_table_df = pd.read_excel(mapping_table_string, sheet_name='icd')
 facilities = pd.read_excel(mapping_table_string, sheet_name='hospital')
 msdrg = pd.read_excel(mapping_table_string, sheet_name='ms_drg', dtype=str)
 icd = pd.read_excel(mapping_table_string, sheet_name='icd', dtype=str)
-df = pd.read_csv('2019-20.csv', 
+df = pd.read_csv('2017 02.22.csv', 
                 names=['Id','Discharge Year','Discharge Date','Discharge Quarter','Admission Year','Admission Date','Hospital ID',
                 'ICD - Dx Code','MS-DRG','ICD - Px Code','CPT','Patient ZIP','FIPS Code','Patient County','Inside PSA?','Patient State',
-                'Payer Category ID','Payer Category', 'Age','Length of Stay','Admission Source Code','Admission Type/Priority',
+                'Payer Category ID','Payer Category', 'Age', '18 or Under','Length of Stay','Admission Source Code','Admission Type/Priority',
                 'Discharge Status',	'INPATIENT','OBSERVATION','OP SURGERY','ED','ICU','CCU','NICU-L2','NICU-L3','NICU-L4','Attending','Surgeon','Total Charges',], 
                 dtype=str)
 print('File Imports -- Complete')
@@ -52,8 +52,8 @@ print('Patient Classification -- Complete')
 
 # convert the df to excel
 print('Converting to excel')
-writer = pd.ExcelWriter('2019-20_data.xlsx', engine='xlsxwriter')
-df.to_excel(writer, 'Sheet1')
+writer = pd.ExcelWriter('2017_data.xlsx', engine='xlsxwriter')
+df.to_excel(writer, 'Sheet1', index = False)
 writer.save()
 print('Excel Generation -- Complete')
 
